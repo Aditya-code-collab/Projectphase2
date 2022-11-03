@@ -5,6 +5,7 @@ import { TransactionContext } from "../context/TransactionContext";
 import useFetch from "../hooks/useFetch";
 import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
+import logo from "../../images/car2.webp";
 
 const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
   const gifUrl = useFetch({ keyword });
@@ -35,7 +36,7 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
           )}
         </div>
         <img
-          src={gifUrl || url}
+          src={logo}
           alt="nature"
           className="w-full h-64 2xl:h-96 rounded-md shadow-lg object-cover"
         />
@@ -64,7 +65,7 @@ const Transactions = () => {
         )}
 
         <div className="flex flex-wrap justify-center items-center mt-10">
-          {[...dummyData, ...transactions].reverse().map((transaction, i) => (
+          {transactions.reverse().map((transaction, i) => (
             <TransactionsCard key={i} {...transaction} />
           ))}
         </div>
