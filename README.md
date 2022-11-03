@@ -10,5 +10,5 @@ Project created in collaboration with Enyel Sequeira:
 Portfolio - https://www.enyelsequeira.com
 E-mail - enyelsequeira1994@gmail.com
 Want me to cover the project you've created? Send me an e-mail 👌
-
+##to run it go to client folder and type npm run dev
 ## Launch your development career with project-based coaching - https://www.jsmastery.pro
