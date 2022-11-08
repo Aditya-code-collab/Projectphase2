@@ -1,7 +1,7 @@
 import React from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
-
+import axios from "axios";
 import logo from "../../images/ESTRO-1.png";
 
 const NavBarItem = ({ title, classprops }) => (
@@ -10,6 +10,15 @@ const NavBarItem = ({ title, classprops }) => (
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
+
+  
+    const getCustomersData =async () => {
+      console.log("updatig the challan status");
+      await axios
+      .post("http://localhost:3001/updatechallan/333")
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+      };
 
   return (
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
@@ -22,6 +31,11 @@ const Navbar = () => {
         ))}
         <li className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]">
           Login
+          <button onClick={
+           getCustomersData
+          }>
+            HELLO WOW
+          </button>
         </li>
       </ul>
       <div className="flex relative">

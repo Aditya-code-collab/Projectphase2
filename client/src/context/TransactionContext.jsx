@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-
+import axios from "axios";
 import { contractABI, contractAddress } from "../utils/constants";
 
 export const TransactionContext = React.createContext();
@@ -28,10 +28,12 @@ export const TransactionsProvider = ({ children }) => {
 
   const getAllTransactions = async () => {
     try {
-      if (ethereum) {
+      console.log(ethereum);
+      if (!ethereum) {
+        console.log("sier present");
         const transactionsContract = createEthereumContract();
 
-        const availableTransactions = await transactionsContract.getAllTransactions();
+        const availableTransactions = await transactionsContract.getAllRecords();
 
         const structuredTransactions = availableTransactions.map((transaction) => ({
           addressTo: transaction.receiver,
@@ -43,7 +45,7 @@ export const TransactionsProvider = ({ children }) => {
         }));
 
         console.log(structuredTransactions);
-
+        console.log("sier present");
         setTransactions(structuredTransactions);
       } else {
         console.log("Ethereum is not present");
@@ -112,13 +114,13 @@ export const TransactionsProvider = ({ children }) => {
           method: "eth_sendTransaction",
           params: [{
             from: currentAccount,
-            to: addressTo,
+            to: "0x718AfDd385cd40877F7D3c6172c2eB87c15B7Aa2",
             gas: "0x5208",
             value: parsedAmount._hex,
           }],
         });
 
-        const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
+        const transactionHash = await transactionsContract.addToBlockchain("0x718AfDd385cd40877F7D3c6172c2eB87c15B7Aa2", parsedAmount, message, keyword);
 
         setIsLoading(true);
         console.log(`Loading - ${transactionHash.hash}`);
@@ -126,9 +128,21 @@ export const TransactionsProvider = ({ children }) => {
         console.log(`Success - ${transactionHash.hash}`);
         setIsLoading(false);
 
-        const transactionsCount = await transactionsContract.getTransactionCount();
+        //const transactionsCount = await transactionsContract.getTransactionCount();
 
-        setTransactionCount(transactionsCount.toNumber());
+       // setTransactionCount(transactionsCount.toNumber());
+
+        const updatechallan =async (req, res) => {
+          console.log(req);
+          console.log("updatig the challan status");
+          await axios
+          .post("http://localhost:3001/updatechallan/"+keyword)
+          .then(data => console.log(data))
+          .catch(error => console.log(error));
+          };
+
+          updatechallan();
+
         window.location.reload();
       } else {
         console.log("No ethereum object");
